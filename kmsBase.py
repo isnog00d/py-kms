@@ -1,3 +1,4 @@
+import logging
 import binascii
 import datetime
 import filetimes
@@ -214,30 +215,28 @@ class kmsBase:
 		return padding
 
 	def serverLogic(self, kmsRequest):
-		if self.config['debug']:
-			print "KMS Request Bytes:", binascii.b2a_hex(str(kmsRequest))
-			print "KMS Request:", kmsRequest.dump()
+		logging.debug("KMS Request Bytes:", binascii.b2a_hex(str(kmsRequest)))
+		logging.debug("KMS Request:", kmsRequest.dump())
 
-		if self.config['verbose']:
-			clientMachineId = kmsRequest['clientMachineId'].get()
-			applicationId = kmsRequest['applicationId'].get()
-			skuId = kmsRequest['skuId'].get()
-			requestDatetime = filetimes.filetime_to_dt(kmsRequest['requestTime'])
+		clientMachineId = kmsRequest['clientMachineId'].get()
+		applicationId = kmsRequest['applicationId'].get()
+		skuId = kmsRequest['skuId'].get()
+		requestDatetime = filetimes.filetime_to_dt(kmsRequest['requestTime'])
 
-			# Try and localize the request time, if pytz is available
-			try:
-				import timezones
-				from pytz import utc
-				local_dt = utc.localize(requestDatetime).astimezone(timezones.localtz())
-			except ImportError:
-				local_dt = requestDatetime
+		# Try and localize the request time, if pytz is available
+		try:
+			import timezones
+			from pytz import utc
+			local_dt = utc.localize(requestDatetime).astimezone(timezones.localtz())
+		except ImportError:
+			local_dt = requestDatetime
 
-			print "     Machine Name: %s" % kmsRequest.getMachineName()
-			print "Client Machine ID: %s" % str(clientMachineId)
-			print "   Application ID: %s" % self.appIds.get(applicationId, str(applicationId))
-			print "           SKU ID: %s" % self.skuIds.get(skuId, str(skuId))
-			print "   Licence Status: %s" % kmsRequest.getLicenseStatus()
-			print "     Request Time: %s" % local_dt.strftime('%Y-%m-%d %H:%M:%S %Z (UTC%z)')
+		logging.info("	Machine Name: %s" % kmsRequest.getMachineName())
+		logging.info("	Client Machine ID: %s" % str(clientMachineId))
+		logging.info("	Application ID: %s" % self.appIds.get(applicationId, str(applicationId)))
+		logging.info("	SKU ID: %s" % self.skuIds.get(skuId, str(skuId)))
+		logging.info("	Licence Status: %s" % kmsRequest.getLicenseStatus())
+		logging.info("	Request Time: %s" % local_dt.strftime('%Y-%m-%d %H:%M:%S %Z (UTC%z)'))
 
 		return self.createKmsResponse(kmsRequest)
 
@@ -255,8 +254,7 @@ class kmsBase:
 		response['currentClientCount'] = self.config["CurrentClientCount"]
 		response['vLActivationInterval'] = self.config["VLActivationInterval"]
 		response['vLRenewalInterval'] = self.config["VLRenewalInterval"]
-		if self.config['verbose']:
-			print "      Server ePID: %s" % response["kmsEpid"].decode('utf-16le')
+		logging.info("Server ePID: %s" % response["kmsEpid"].decode('utf-16le'))
 		return response
 
 import kmsRequestV4, kmsRequestV5, kmsRequestV6, kmsRequestUnknown
@@ -266,18 +264,18 @@ def generateKmsResponseData(data, config):
 	currentDate = datetime.datetime.now().ctime()
 
 	if version == 4:
-		print "Received V%d request on %s." % (version, currentDate)
+		logging.info("Received V%d request on %s." % (version, currentDate))
 		messagehandler = kmsRequestV4.kmsRequestV4(data, config)
 		messagehandler.executeRequestLogic()
 	elif version == 5:
-		print "Received V%d request on %s." % (version, currentDate)
+		logging.info("Received V%d request on %s." % (version, currentDate))
 		messagehandler = kmsRequestV5.kmsRequestV5(data, config)
 		messagehandler.executeRequestLogic()
 	elif version == 6:
-		print "Received V%d request on %s." % (version, currentDate)
+		logging.info("Received V%d request on %s." % (version, currentDate))
 		messagehandler = kmsRequestV6.kmsRequestV6(data, config)
 		messagehandler.executeRequestLogic()
 	else:
-		print "Unhandled KMS version.", version
+		logging.info("Unhandled KMS version.", version)
 		messagehandler = kmsRequestUnknown.kmsRequestUnknown(data, config)
 	return messagehandler.getResponse()

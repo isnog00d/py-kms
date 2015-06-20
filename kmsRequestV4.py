@@ -1,3 +1,4 @@
+import logging
 import binascii
 import struct
 import time
@@ -133,9 +134,8 @@ class kmsRequestV4(kmsBase):
 		response['hash'] = hash
 		response['padding'] = self.getResponsePadding(bodyLength)
 
-		if self.config['debug']:
-			print "KMS V4 Response:", response.dump()
-			print "KMS V4 Response Bytes:", binascii.b2a_hex(str(response))
+		logging.debug("KMS V4 Response:", response.dump())
+		logging.debug("KMS V4 Response Bytes:", binascii.b2a_hex(str(response)))
 
 		return str(response)
 

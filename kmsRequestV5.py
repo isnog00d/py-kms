@@ -1,3 +1,4 @@
+import logging
 import aes
 import binascii
 import hashlib
@@ -117,9 +118,8 @@ class kmsRequestV5(kmsBase):
 		response['encrypted'] = encryptedResponse
 		response['padding'] = self.getResponsePadding(bodyLength)
 
-		if self.config['debug']:
-			print "KMS V%d Response: %s" % (self.ver, response.dump())
-			print "KMS V%d Structue Bytes: %s" % (self.ver, binascii.b2a_hex(str(response)))
+		logging.info("KMS V%d Response: %s" % (self.ver, response.dump()))
+		logging.info("KMS V%d Structue Bytes: %s" % (self.ver, binascii.b2a_hex(str(response))))
 
 		return str(response)
 	

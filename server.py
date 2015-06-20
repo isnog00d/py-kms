@@ -1,3 +1,4 @@
+import logging
 import argparse
 import binascii
 import hashlib
@@ -7,6 +8,8 @@ import SocketServer
 import struct
 import uuid
 import rpcBind, rpcRequest
+import sys
+import os
 
 from dcerpc import MSRPCHeader
 from rpcBase import rpcBase
@@ -22,20 +25,19 @@ def main():
 	parser.add_argument("-c", "--client-count", dest="CurrentClientCount", default=26, help="Use this flag to specify the current client count. Default is 26. A number >25 is required to enable activation.", type=int)
 	parser.add_argument("-a", "--activation-interval", dest="VLActivationInterval", default=120, help="Use this flag to specify the activation interval (in minutes). Default is 120 minutes (2 hours).", type=int)
 	parser.add_argument("-r", "--renewal-interval", dest="VLRenewalInterval", default=1440 * 7, help="Use this flag to specify the renewal interval (in minutes). Default is 10080 minutes (7 days).", type=int)
-	parser.add_argument("-v", "--verbose", dest="verbose", action="store_const", const=True, default=False, help="Use this flag to enable verbose output.")
-	parser.add_argument("-d", "--debug", dest="debug", action="store_const", const=True, default=False, help="Use this flag to enable debug output. Implies \"-v\".")
+	parser.add_argument("-v", "--loglevel", dest="loglevel", action="store", default="ERROR", choices=["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"], help="set's Loglevel")
+	parser.add_argument("-f", "--logfile", dest="logfile", action="store", default=os.path.dirname(os.path.abspath( __file__ )) + "/pykms.log", help="Logfile to write Output to")
 	config.update(vars(parser.parse_args()))
-	if config['debug']:
-		config['verbose'] = True
+	logging.basicConfig(filename=config['logfile'], level=config['loglevel'])
 	server = SocketServer.TCPServer((config['ip'], config['port']), kmsServer)
 	server.timeout = 5
-	print "TCP server listening at %s on port %d." % (config['ip'],config['port'])
+	logging.info("TCP server listening at %s on port %d." % (config['ip'],config['port']))
 	server.serve_forever()
 
 class kmsServer(SocketServer.BaseRequestHandler):
 	def setup(self):
 		self.connection = self.request
-		print "Connection accepted: %s:%d" % (self.client_address[0],self.client_address[1])
+		logging.info("Connection accepted: %s:%d" % (self.client_address[0],self.client_address[1]))
 
 	def handle(self):
 		while True:
@@ -44,26 +46,24 @@ class kmsServer(SocketServer.BaseRequestHandler):
 				self.data = self.connection.recv(1024)
 			except socket.error, e:
 				if e[0] == 104:
-					print "Error: Connection reset by peer."
+					logging.error("Connection reset by peer.")
 					break
 				else:
 					raise
 			if self.data == '' or not self.data:
-				print "No data received!"
+				logging.warn("No data received!")
 				break
 			# self.data = bytearray(self.data.strip())
-			# print binascii.b2a_hex(str(self.data))
+			# logging.debug(binascii.b2a_hex(str(self.data)))
 			packetType = MSRPCHeader(self.data)['type']
 			if packetType == rpcBase.packetType['bindReq']:
-				if config['verbose']:
-					print "RPC bind request received."
+				logging.info("RPC bind request received.")
 				handler = rpcBind.handler(self.data, config)
 			elif packetType == rpcBase.packetType['request']:
-				if config['verbose']:
-					print "Received activation request."
+				logging.info("Received activation request.")
 				handler = rpcRequest.handler(self.data, config)
 			else:
-				print "Error: Invalid RPC request type", packetType
+				logging.error("Invalid RPC request type", packetType)
 				break
 
 			handler.populate()
@@ -71,16 +71,14 @@ class kmsServer(SocketServer.BaseRequestHandler):
 			self.connection.send(res)
 
 			if packetType == rpcBase.packetType['bindReq']:
-				if config['verbose']:
-					print "RPC bind acknowledged."
+				logging.info("RPC bind acknowledged.")
 			elif packetType == rpcBase.packetType['request']:
-				if config['verbose']:
-					print "Responded to activation request."
+				logging.info("Responded to activation request.")
 				break
 
 	def finish(self):
 		self.connection.close()
-		print "Connection closed: %s:%d" % (self.client_address[0],self.client_address[1])
+		logging.info("Connection closed: %s:%d" % (self.client_address[0],self.client_address[1]))
 
 if __name__ == "__main__":
 	main()
