@@ -267,7 +267,7 @@ class kmsBase:
 		logging.info("	Client Machine ID: %s" % str(clientMachineId))
 		logging.info("	Application ID: %s" % self.appIds.get(applicationId, str(applicationId)))
 		logging.info("	SKU ID: %s" % self.skuIds.get(skuId, str(skuId)))
-		logging.info("	Licence Status: %s" % kmsRequest.getLicenseStatus())
+		logging.info("	License Status: %s" % kmsRequest.getLicenseStatus())
 		logging.info("	Request Time: %s" % local_dt.strftime('%Y-%m-%d %H:%M:%S %Z (UTC%z)'))
 
 		return self.createKmsResponse(kmsRequest)
