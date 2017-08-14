@@ -5,7 +5,7 @@
 ' find KMS Server via DNS SRV Record
 autodetect="True"
 ' or connect to this specified KMS Server
-kms_server="kms.walhalla.local"
+kms_server="kms.mydomain"
 kms_port="1688"
 
 strComputer = "."

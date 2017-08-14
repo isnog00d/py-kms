@@ -8,7 +8,7 @@ Dim objFSO
 ' find KMS Server via DNS SRV Record
 autodetect="True"
 ' or connect to this specified KMS Server
-kms_server="kms.walhalla.local"
+kms_server="kms.mydomain"
 kms_port="1688"
 
  
@@ -38,6 +38,12 @@ Select Case ProductName
 		kms_serial = "PGD67-JN23K-JGVWV-KTHP4-GXR9G"
 	Case "Microsoft Office 2013 Standard"
 		kms_serial = "KBKQT-2NMXY-JJWGP-M62JB-92CD4"
+
+' Office 2016 ----------------------------------------
+	Case "Microsoft Office 2016 Professional Plus"
+		kms_serial = "XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99"
+	Case "Microsoft Office 2016 Standard"
+		kms_serial = "JNRGM-WHDWX-FJJG3-K47QV-DRTFM"
 
 ' Sharepoint Workspace 2010 ----------------------------------------
     Case "Microsoft SharePoint Workspace 2010"
@@ -72,14 +78,14 @@ Select Case ProductName
 		kms_serial = "767HD-QGMWX-8QTDB-9G3R2-KHFGJ"
 
 ' Office 2013 Products ----------------------------------------
-    Case "Microsoft Project 2013"
-		kms_serial = "Professional FN8TT-7WMH6-2D4X9-M337T-2342K"
-    Case "Microsoft Project 2013"
-		kms_serial = "Standard 6NTH3-CW976-3G3Y2-JK3TX-8QHTT"
-    Case "Microsoft Visio 2013"
-		kms_serial = "Professional C2FG9-N6J68-H8BTJ-BW3QX-RM3B3"
-    Case "Microsoft Visio 2013"
-		kms_serial = "Standard J484Y-4NKBF-W2HMG-DBMJC-PGWR7"
+    Case "Microsoft Project 2013 Professional"
+		kms_serial = "FN8TT-7WMH6-2D4X9-M337T-2342K"
+    Case "Microsoft Project 2013 Standard"
+		kms_serial = "6NTH3-CW976-3G3Y2-JK3TX-8QHTT"
+    Case "Microsoft Visio 2013 Professaional"
+		kms_serial = "C2FG9-N6J68-H8BTJ-BW3QX-RM3B3"
+    Case "Microsoft Visio 2013 Standard"
+		kms_serial = "J484Y-4NKBF-W2HMG-DBMJC-PGWR7"
     Case "Microsoft Access 2013"
 		kms_serial = "NG2JY-H4JBT-HQXYP-78QH9-4JM2D"
     Case "Microsoft Excel 2013"
@@ -98,6 +104,32 @@ Select Case ProductName
 		kms_serial = "PN2WF-29XG2-T9HJ7-JQPJR-FCXK4"
     Case "Microsoft Word 2013"
 		kms_serial = "6Q7VD-NX8JD-WJ2VH-88V73-4GBJ7"
+
+' Office 2016 Products ----------------------------------------
+    Case "Microsoft Project 2016 Professional"
+		kms_serial = "YG9NW-3K39V-2T3HJ-93F3Q-G83KT"
+    Case "Microsoft Project 2016 Standard"
+		kms_serial = "GNFHQ-F6YQM-KQDGJ-327XX-KQBVC"
+    Case "Microsoft Visio 2016 Professaional"
+		kms_serial = "PD3PC-RHNGV-FXJ29-8JK7D-RJRJK"
+    Case "Microsoft Visio 2016 Standard"
+		kms_serial = "7WHWN-4T7MP-G96JF-G33KR-W8GF4"
+    Case "Microsoft Access 2016"
+		kms_serial = "GNH9Y-D2J4T-FJHGG-QRVH7-QPFDW"
+    Case "Microsoft Excel 2016"
+		kms_serial = "9C2PK-NWTVB-JMPW8-BFT28-7FTBF"
+    Case "Microsoft OneNote 2016"
+		kms_serial = "DR92N-9HTF2-97XKM-XW2WJ-XW3J6"
+    Case "Microsoft Outlook 2016"
+		kms_serial = "R69KK-NTPKF-7M3Q4-QYBHW-6MT9B"
+    Case "Microsoft PowerPoint 2016"
+		kms_serial = "J7MQP-HNJ4Y-WJ7YM-PFYGF-BY6C6"
+    Case "Microsoft Publisher 2016"
+		kms_serial = "F47MM-N3XJP-TQXJ9-BP99D-8K837"
+    Case "Microsoft Skype for Business 2016"
+		kms_serial = "869NQ-FJ69K-466HW-QYCP2-DDBV6"
+    Case "Microsoft Word 2016"
+		kms_serial = "WXY84-JN2Q9-RBCCQ-3Q3J3-3PFJ6"
 
     Case Else
 		Msgbox ("Abbruch: kein unterstütztes Office Produkt gefunden! ->" + ProductName)
