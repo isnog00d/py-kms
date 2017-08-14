@@ -124,6 +124,20 @@ Select Case varos
 	Case "Microsoft Windows Server 2008 R2 for Itanium-based Systems"
 		kms_serial = "GT63C-RJFQ3-4GMB6-BRFB9-CB83V"
 
+'Windows Server 2016 ------------------------------
+    Case "Microsoft Windows Server 2016 Azure Core"
+        kms_serial = "VP34G-4NPPG-79JTQ-864T4-R3MQX"
+    Case "Microsoft Windows Server 2016 Cloud Storage"
+        kms_serial = "QN4C6-GBJD2-FB422-GHWJK-GJG2R"
+    Case "Microsoft Windows Server 2016 Datacenter"
+        kms_serial = "CB7KF-BWN84-R7R2Y-793K2-8XDDG"
+    Case "Microsoft Windows Server 2016 Essentials"
+        kms_serial = "JCKRF-N37P4-C2D82-9YXRT-4M63B"
+    Case "Microsoft Windows Server 2016 Standard"
+        kms_serial = "WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY"
+    Case "Microsoft Windows Server 2016 Datacenter Preview"
+        kms_serial = "VRDD2-NVGDP-K7QG8-69BR4-TVFHB"
+
 'Windows Server 2008 ------------------------------
     Case "Microsoft Windows Web Server 2008"
 		kms_serial = "WYR28-R7TFJ-3X2YQ-YCY4H-M249D"
