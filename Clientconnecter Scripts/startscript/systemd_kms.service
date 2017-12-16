@@ -1,0 +1,13 @@
+[Unit]
+Description=KMS Server
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/default/kmsserver
+ExecStart=/usr/bin/python /srv/py-kms/server.py $LISTENIP $PORT --loglevel $LOGLEVEL --logfile $LOGFILE
+
+[Install]
+WantedBy=multi-user.target
+Alias=kms.service
+
