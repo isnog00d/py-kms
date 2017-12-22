@@ -1,3 +1,4 @@
+import logging
 import binascii
 import datetime
 import filetimes
@@ -95,6 +96,28 @@ class kmsBase:
 		uuid.UUID("b3ca044e-a358-4d68-9883-aaa2941aca99") : "Windows Server 2012 R2 Standard",
 		uuid.UUID("b743a2be-68d4-4dd3-af32-92425b7bb623") : "Windows Server 2012 R2 Cloud Storage",
 		uuid.UUID("21db6ba4-9a7b-4a14-9e29-64a60c59301d") : "Windows Server Essentials 2012 R2",
+		uuid.UUID("3dbf341b-5f6c-4fa7-b936-699dce9e263f") : "Windows Server 2016 Azure Core",
+		uuid.UUID("7b4433f4-b1e7-4788-895a-c45378d38253") : "Windows Server 2016 Cloud Storage",
+		uuid.UUID("21c56779-b449-4d20-adfc-eece0e1ad74b") : "Windows Server 2016 Datacenter",
+		uuid.UUID("2b5a1b0f-a5ab-4c54-ac2f-a6d94824a283") : "Windows Server 2016 Essentials",
+		uuid.UUID("8c1c5410-9f39-4805-8c9d-63a07706358f") : "Windows Server 2016 Standard",
+		uuid.UUID("ba947c44-d19d-4786-b6ae-22770bc94c54") : "Windows Server 2016 Datacenter Preview",
+		uuid.UUID("a4383e6b-dada-423d-a43d-f25678429676") : "Windows 10 Professional TechPreview",
+		uuid.UUID("cf59a07b-1a2a-4be0-bfe0-423b5823e663") : "Windows 10 Professional WMC TechPreview",
+		uuid.UUID("cde952c7-2f96-4d9d-8f2b-2d349f64fc51") : "Windows 10 Enterprise TechPreview",
+		uuid.UUID("6496e59d-89dc-49eb-a353-09ceb9404845") : "Windows 10 Core TechPreview",
+		uuid.UUID("73111121-5638-40f6-bc11-f1d7b0d64300") : "Windows 10 Enterprise",
+		uuid.UUID("e272e3e2-732f-4c65-a8f0-484747d0d947") : "Windows 10 Enterprise N",
+		uuid.UUID("7b51a46c-0c04-4e8f-9af4-8496cca90d5e") : "Windows 10 Enterprise LTSB",
+		uuid.UUID("87b838b7-41b6-4590-8318-5797951d8529") : "Windows 10 Enterprise LTSB N",
+		uuid.UUID("e0c42288-980c-4788-a014-c080d2e1926e") : "Windows 10 Education",
+		uuid.UUID("3c102355-d027-42c6-ad23-2e7ef8a02585") : "Windows 10 Education N",
+		uuid.UUID("2de67392-b7a7-462a-b1ca-108dd189f588") : "Windows 10 Professional",
+		uuid.UUID("a80b5abf-76ad-428b-b05d-a47d2dffeebf") : "Windows 10 Professional N",
+		uuid.UUID("58e97c99-f377-4ef1-81d5-4ad5522b5fd8") : "Windows 10 Home",
+		uuid.UUID("7b9e1751-a8da-4f75-9560-5fadfe3d8e38") : "Windows 10 Home N",
+		uuid.UUID("cd918a57-a41b-4c82-8dce-1a538e221a83") : "Windows 10 Home Single Language",
+		uuid.UUID("a9107544-f4a0-4053-a96a-1479abdef912") : "Windows 10 Home Country Specific",
 		uuid.UUID("81671aaf-79d1-4eb1-b004-8cbbe173afea") : "Windows 8.1 Enterprise",
 		uuid.UUID("113e705c-fa49-48a4-beea-7dd879b46b14") : "Windows 8.1 EnterpriseN",
 		uuid.UUID("096ce63d-4fac-48a9-82a9-61ae9e800e5f") : "Windows 8.1 Professional WMC",
@@ -157,6 +180,22 @@ class kmsBase:
 		uuid.UUID("d9f5b1c6-5386-495a-88f9-9ad6b41ac9b3") : "Office Word 2013",
 		uuid.UUID("b322da9c-a2e2-4058-9e4e-f59a6970bd69") : "Office Professional Plus 2013",
 		uuid.UUID("b13afb38-cd79-4ae5-9f7f-eed058d750ca") : "Office Standard 2013",
+		uuid.UUID("d450596f-894d-49e0-966a-fd39ed4c4c64") : "Office Professional Plus 2016",
+		uuid.UUID("dedfa23d-6ed1-45a6-85dc-63cae0546de6") : "Office Standard 2016",
+		uuid.UUID("4f414197-0fc2-4c01-b68a-86cbb9ac254c") : "Office Project Pro 2016",
+		uuid.UUID("da7ddabc-3fbe-4447-9e01-6ab7440b4cd4") : "Office Project Standard 2016",
+		uuid.UUID("6bf301c1-b94a-43e9-ba31-d494598c47fb") : "Office Visio Pro 2016",
+		uuid.UUID("aa2a7821-1827-4c2c-8f1d-4513a34dda97") : "Office Visio Standard 2016",
+		uuid.UUID("041a06cb-c5b8-4772-809f-416d03d16654") : "Office Publisher 2016",
+		uuid.UUID("67c0fc0c-deba-401b-bf8b-9c8ad8395804") : "Office Access 2016",
+		uuid.UUID("83e04ee1-fa8d-436d-8994-d31a862cab77") : "Office Skype for Business 2016",
+		uuid.UUID("9caabccb-61b1-4b4b-8bec-d10a3c3ac2ce") : "Office Mondo 2016",
+		uuid.UUID("e914ea6e-a5fa-4439-a394-a9bb3293ca09") : "Office Mondo R 2016",
+		uuid.UUID("bb11badf-d8aa-470e-9311-20eaf80fe5cc") : "Office Word 2016",
+		uuid.UUID("c3e65d36-141f-4d2f-a303-a842ee756a29") : "Office Excel 2016",
+		uuid.UUID("d70b1bba-b893-4544-96e2-b7a318091c33") : "Office Powerpoint 2016",
+		uuid.UUID("d8cace59-33d2-4ac7-9b1b-9b72339c51c8") : "Office OneNote 2016",
+		uuid.UUID("ec9d9265-9d1e-4ed0-838a-cdc20f2551a1") : "Office Outlook 2016",
 	}
 
 	licenseStates = {
@@ -214,30 +253,28 @@ class kmsBase:
 		return padding
 
 	def serverLogic(self, kmsRequest):
-		if self.config['debug']:
-			print "KMS Request Bytes:", binascii.b2a_hex(str(kmsRequest))
-			print "KMS Request:", kmsRequest.dump()
+		logging.debug("KMS Request Bytes:", binascii.b2a_hex(str(kmsRequest)))
+		logging.debug("KMS Request:", kmsRequest.dump())
 
-		if self.config['verbose']:
-			clientMachineId = kmsRequest['clientMachineId'].get()
-			applicationId = kmsRequest['applicationId'].get()
-			skuId = kmsRequest['skuId'].get()
-			requestDatetime = filetimes.filetime_to_dt(kmsRequest['requestTime'])
+		clientMachineId = kmsRequest['clientMachineId'].get()
+		applicationId = kmsRequest['applicationId'].get()
+		skuId = kmsRequest['skuId'].get()
+		requestDatetime = filetimes.filetime_to_dt(kmsRequest['requestTime'])
 
-			# Try and localize the request time, if pytz is available
-			try:
-				import timezones
-				from pytz import utc
-				local_dt = utc.localize(requestDatetime).astimezone(timezones.localtz())
-			except ImportError:
-				local_dt = requestDatetime
+		# Try and localize the request time, if pytz is available
+		try:
+			import timezones
+			from pytz import utc
+			local_dt = utc.localize(requestDatetime).astimezone(timezones.localtz())
+		except ImportError:
+			local_dt = requestDatetime
 
-			print "     Machine Name: %s" % kmsRequest.getMachineName()
-			print "Client Machine ID: %s" % str(clientMachineId)
-			print "   Application ID: %s" % self.appIds.get(applicationId, str(applicationId))
-			print "           SKU ID: %s" % self.skuIds.get(skuId, str(skuId))
-			print "   Licence Status: %s" % kmsRequest.getLicenseStatus()
-			print "     Request Time: %s" % local_dt.strftime('%Y-%m-%d %H:%M:%S %Z (UTC%z)')
+		logging.info("	Machine Name: %s" % kmsRequest.getMachineName())
+		logging.info("	Client Machine ID: %s" % str(clientMachineId))
+		logging.info("	Application ID: %s" % self.appIds.get(applicationId, str(applicationId)))
+		logging.info("	SKU ID: %s" % self.skuIds.get(skuId, str(skuId)))
+		logging.info("	License Status: %s" % kmsRequest.getLicenseStatus())
+		logging.info("	Request Time: %s" % local_dt.strftime('%Y-%m-%d %H:%M:%S %Z (UTC%z)'))
 
 		return self.createKmsResponse(kmsRequest)
 
@@ -255,8 +292,7 @@ class kmsBase:
 		response['currentClientCount'] = self.config["CurrentClientCount"]
 		response['vLActivationInterval'] = self.config["VLActivationInterval"]
 		response['vLRenewalInterval'] = self.config["VLRenewalInterval"]
-		if self.config['verbose']:
-			print "      Server ePID: %s" % response["kmsEpid"].decode('utf-16le')
+		logging.info("Server ePID: %s" % response["kmsEpid"].decode('utf-16le'))
 		return response
 
 import kmsRequestV4, kmsRequestV5, kmsRequestV6, kmsRequestUnknown
@@ -266,18 +302,18 @@ def generateKmsResponseData(data, config):
 	currentDate = datetime.datetime.now().ctime()
 
 	if version == 4:
-		print "Received V%d request on %s." % (version, currentDate)
+		logging.info("Received V%d request on %s." % (version, currentDate))
 		messagehandler = kmsRequestV4.kmsRequestV4(data, config)
 		messagehandler.executeRequestLogic()
 	elif version == 5:
-		print "Received V%d request on %s." % (version, currentDate)
+		logging.info("Received V%d request on %s." % (version, currentDate))
 		messagehandler = kmsRequestV5.kmsRequestV5(data, config)
 		messagehandler.executeRequestLogic()
 	elif version == 6:
-		print "Received V%d request on %s." % (version, currentDate)
+		logging.info("Received V%d request on %s." % (version, currentDate))
 		messagehandler = kmsRequestV6.kmsRequestV6(data, config)
 		messagehandler.executeRequestLogic()
 	else:
-		print "Unhandled KMS version.", version
+		logging.info("Unhandled KMS version.", version)
 		messagehandler = kmsRequestUnknown.kmsRequestUnknown(data, config)
 	return messagehandler.getResponse()

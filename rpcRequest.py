@@ -1,3 +1,4 @@
+import logging
 import binascii
 import kmsBase
 import rpcBase
@@ -10,9 +11,8 @@ class handler(rpcBase.rpcBase):
 	def parseRequest(self):
 		request = MSRPCRequestHeader(self.data)
 
-		if self.config['debug']:
-			print "RPC Message Request Bytes:", binascii.b2a_hex(self.data)
-			print "RPC Message Request:", request.dump()
+		logging.debug("RPC Message Request Bytes:", binascii.b2a_hex(self.data))
+		logging.debug("RPC Message Request:", request.dump())
 
 		return request
 
@@ -36,9 +36,8 @@ class handler(rpcBase.rpcBase):
 
 		response['pduData'] = responseData
 
-		if self.config['debug']:
-			print "RPC Message Response:", response.dump()
-			print "RPC Message Response Bytes:", binascii.b2a_hex(str(response))
+		logging.debug("RPC Message Response:", response.dump())
+		logging.debug("RPC Message Response Bytes:", binascii.b2a_hex(str(response)))
 
 		return response
 
@@ -55,9 +54,8 @@ class request(rpcBase.rpcBase):
 		request['alloc_hint'] = len(self.data)
 		request['pduData'] = self.data
 
-		if self.config['debug']:
-			print "RPC Message Request:", request.dump()
-			print "RPC Message Request Bytes:", binascii.b2a_hex(str(request))
+		logging.debug("RPC Message Request:", request.dump())
+		logging.debug("RPC Message Request Bytes:", binascii.b2a_hex(str(request)))
 
 		return request
 

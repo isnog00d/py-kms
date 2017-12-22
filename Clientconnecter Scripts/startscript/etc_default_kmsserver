@@ -1,0 +1,15 @@
+# Defaults for KMSServer - sourced by /etc/init.d/kmsserver
+
+# Start KMMServer on boot?
+START=yes
+
+# Startup options
+#default is 0.0.0.0 on Port 1688
+LISTENIP=0.0.0.0
+PORT=1688
+
+# Logging
+# CRITICAL, WARNING, ERROR, INFO, DEBUG
+LOGLEVEL=DEBUG
+LOGFILE=/var/log/kmsserver.log
+

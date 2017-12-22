@@ -1,3 +1,4 @@
+import logging
 import binascii
 import rpcBase
 import struct
@@ -71,9 +72,8 @@ class handler(rpcBase.rpcBase):
 	def parseRequest(self):
 		request = MSRPCHeader(self.data)
 
-		if self.config['debug']:
-			print "RPC Bind Request Bytes:", binascii.b2a_hex(self.data)
-			print "RPC Bind Request:", request.dump(), MSRPCBind(request['pduData']).dump()
+		logging.debug("RPC Bind Request Bytes:", binascii.b2a_hex(self.data))
+		logging.debug("RPC Bind Request:", request.dump(), MSRPCBind(request['pduData']).dump())
 
 		return request
 
@@ -113,9 +113,8 @@ class handler(rpcBase.rpcBase):
 			resp = preparedResponses[ts_uuid]
 			response['ctx_items'] += str(resp)
 
-		if self.config['debug']:
-			print "RPC Bind Response:", response.dump()
-			print "RPC Bind Response Bytes:", binascii.b2a_hex(str(response))
+		logging.debug("RPC Bind Response:", response.dump())
+		logging.debug("RPC Bind Response Bytes:", binascii.b2a_hex(str(response)))
 
 		return response
 
@@ -154,9 +153,8 @@ class bind(rpcBase.rpcBase):
 		request['call_id'] = self.config['call_id']
 		request['pduData'] = str(bind)
 
-		if self.config['debug']:
-			print "RPC Bind Request:", request.dump(), MSRPCBind(request['pduData']).dump()
-			print "RPC Bind Request Bytes:", binascii.b2a_hex(str(request))
+		logging.debug("RPC Bind Request:", request.dump(), MSRPCBind(request['pduData']).dump())
+		logging.debug("RPC Bind Request Bytes:", binascii.b2a_hex(str(request)))
 
 		return request
 
